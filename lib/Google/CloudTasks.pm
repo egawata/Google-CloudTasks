@@ -84,7 +84,7 @@ sub request_post {
         $self->base_url . $self->version . '/' . $path,
         'Content-Type' => 'application/json; charset=utf8',
         'Authorization' => 'Bearer ' . $self->auth->get_token,
-        Content => encode_json($body),
+        $body ? (Content => encode_json($body)) : (),
     );
 
     if ($res->is_success) {
@@ -137,6 +137,13 @@ sub delete_queue {
     my $path = $args->{name};
 
     return $self->request_delete($path);
+}
+
+sub get_iam_policy {
+    my ($self, $args) = @_;
+    my $path = $args->{resource} . ':getIamPolicy';
+
+    return $self->request_post($path);
 }
 
 sub list_queues {

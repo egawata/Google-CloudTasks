@@ -2,12 +2,14 @@ package Google::CloudTasks;
 use 5.008001;
 use strict;
 use warnings;
+use utf8;
 
 our $VERSION = "0.01";
 
 use Mouse;
 use WWW::Google::Cloud::Auth::ServiceAccount;
 use LWP::UserAgent;
+use HTTP::Request;
 use URI;
 use URI::QueryParam;
 use JSON::XS;
@@ -56,6 +58,31 @@ sub _build_auth {
     return $auth;
 }
 
+sub request {
+    my ($self, $method, $path, $content) = @_;
+
+
+    my $url = $self->base_url . $self->version . '/' . $path;
+    my $req = HTTP::Request->new($method, $url);
+    $req->header('Content-Type' => 'application/json; charset=utf8');
+    $req->header('Authorization' => 'Bearer ' . $self->auth->get_token);
+    if ($content) {
+        my $encoded_body = encode_json($content);
+        $req->header('Content-Length' => length($encoded_body));
+        $req->content($encoded_body);
+    }
+    use Data::Dumper;
+    print Dumper($req);
+    my $res = $self->ua->request($req);
+
+    if ($res->is_success) {
+        return decode_json($res->content);
+    }
+    else {
+        die "Fail: " . $res->content;
+    }
+}
+
 sub request_get {
     my ($self, $path, $param) = @_;
 
@@ -63,53 +90,23 @@ sub request_get {
         $path .= '?' . $param;
     }
 
-    my $res = $self->ua->get(
-        $self->base_url . $self->version . '/' . $path,
-        'Content-Type' => 'application/json; charset=utf8',
-        'Authorization' => 'Bearer ' . $self->auth->get_token,
-    );
-
-    if ($res->is_success) {
-        return decode_json($res->content);
-    }
-    else {
-        die "Failed to call API : " . $res->content;
-    }
+    return $self->request(GET => $path);
 }
 
 sub request_post {
-    my ($self, $path, $body) = @_;
-
-    my $res = $self->ua->post(
-        $self->base_url . $self->version . '/' . $path,
-        'Content-Type' => 'application/json; charset=utf8',
-        'Authorization' => 'Bearer ' . $self->auth->get_token,
-        $body ? (Content => encode_json($body)) : (),
-    );
-
-    if ($res->is_success) {
-        return decode_json($res->content);
-    }
-    else {
-        die "Failed to call API : " . $res->content;
-    }
+    my ($self, $path, $content) = @_;
+    $content //= {};
+    return $self->request(POST => $path, $content);
 }
 
 sub request_delete {
     my ($self, $path) = @_;
+    return $self->request(DELETE => $path);
+}
 
-    my $res = $self->ua->delete(
-        $self->base_url . $self->version . '/' . $path,
-        'Content-Type' => 'application/json; charset=utf8',
-        'Authorization' => 'Bearer ' . $self->auth->get_token,
-    );
-
-    if ($res->is_success) {
-        return decode_json($res->content);
-    }
-    else {
-        die "Failed to call API : " . $res->content;
-    }
+sub request_patch {
+    my ($self, $path) = @_;
+    return $self->request(PATCH => $path);
 }
 
 sub _make_query_param {

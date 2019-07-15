@@ -95,6 +95,23 @@ sub request_post {
     }
 }
 
+sub request_delete {
+    my ($self, $path) = @_;
+
+    my $res = $self->ua->delete(
+        $self->base_url . $self->version . '/' . $path,
+        'Content-Type' => 'application/json; charset=utf8',
+        'Authorization' => 'Bearer ' . $self->auth->get_token,
+    );
+
+    if ($res->is_success) {
+        return decode_json($res->content);
+    }
+    else {
+        die "Failed to call API : " . $res->content;
+    }
+}
+
 sub _make_query_param {
     my ($args, @keys) = @_;
 
@@ -113,6 +130,13 @@ sub create_queue {
     my $path = $args->{parent} . '/queues';
 
     return $self->request_post($path, $queue);
+}
+
+sub delete_queue {
+    my ($self, $args) = @_;
+    my $path = $args->{name};
+
+    return $self->request_delete($path);
 }
 
 sub list_queues {

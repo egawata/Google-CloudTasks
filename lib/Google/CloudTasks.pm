@@ -8,7 +8,7 @@ use Google::CloudTasks::Client;
 
 our $VERSION = "0.01";
 
-sub new {
+sub client {
     my ($class, @args) = @_;
 
     return Google::CloudTasks::Client->new(@args);

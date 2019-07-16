@@ -7,6 +7,8 @@ use HTTP::Request;
 use URI;
 use URI::QueryParam;
 use JSON::XS;
+use Google::CloudTasks::Location;
+use Google::CloudTasks::Queue;
 
 our $VERSION = "0.01";
 
@@ -114,7 +116,9 @@ sub _make_query_param {
 sub get_location {
     my ($self, $args) = @_;
     my $path = $args->{name};
-    return $self->request_get($path);
+    my $ret = $self->request_get($path);
+    my $location = Google::CloudTasks::Location->new_from_hash($self, $ret);
+    return $location;
 }
 
 sub list_locations {
@@ -166,14 +170,23 @@ sub list_queues {
     my $path = $args->{parent};
     $path .= _make_query_param($args, qw/filter pageSize pageToken/);
 
-    return $self->request_get($path);
+    my $ret = $self->request_get($path);
+    my @queues = [
+        map { Google::CloudTasks::Queue->new_from_hash($self, $_) }
+        @{$ret->{queues}}
+    ];
+    return {
+        queues => \@queues,
+        nextPageToken => $ret->{nextPageToken},
+    };
 }
 
 sub get_queue {
     my ($self, $args) = @_;
     my $path = $args->{name};
 
-    return $self->request_get($path);
+    my $ret = $self->request_get($path);
+    return Google::CloudTasks::Queue->new_from_hash($self, $ret);
 }
 
 sub patch_queue {

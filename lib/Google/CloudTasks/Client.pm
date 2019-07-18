@@ -114,151 +114,138 @@ sub _make_query_param {
 }
 
 sub get_location {
-    my ($self, $args) = @_;
-    my $path = $args->{name};
+    my ($self, $name) = @_;
+    my $path = $name;
 
     return $self->request_get($path);
 }
 
 sub list_locations {
-    my ($self, $args) = @_;
-    my $path = $args->{name} . '/locations';
-    $path .= _make_query_param($args, qw/filter pageSize pageToken/);
+    my ($self, $name, $opts) = @_;
+    my $path = $name . '/locations';
+    $path .= _make_query_param($opts, qw/filter pageSize pageToken/);
 
     return $self->request_get($path);
 }
 
 sub create_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{parent} . '/queues';
+    my ($self, $parent, $queue) = @_;
+    my $path = $parent . '/queues';
 
-    return $self->request_post($path, $args->{queue});
+    return $self->request_post($path, $queue);
 }
 
 sub delete_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{name};
+    my ($self, $name) = @_;
+    my $path = $name;
 
     return $self->request_delete($path);
 }
 
 sub get_iam_policy {
-    my ($self, $args) = @_;
-    my $path = $args->{resource} . ':getIamPolicy';
+    my ($self, $resource) = @_;
+    my $path = $resource . ':getIamPolicy';
 
     return $self->request_post($path);
 }
 
 sub set_iam_policy {
-    my ($self, $args) = @_;
-    my $path = $args->{resource} . ':setIamPolicy';
+    my ($self, $resource, $policy) = @_;
+    my $path = $resource . ':setIamPolicy';
 
-    my %opts = ();
-    if ($args->{policy}) {
-        $opts{policy} = $args->{policy};
-    }
-    return $self->request_post($path, \%opts);
+    return $self->request_post($path, { policy => $policy });
 }
 
 sub list_queues {
-    my ($self, $args) = @_;
-    my $path = $args->{parent};
-    $path .= _make_query_param($args, qw/filter pageSize pageToken/);
+    my ($self, $parent, $opts) = @_;
+    my $path = $parent;
+    $path .= _make_query_param($opts, qw/filter pageSize pageToken/);
 
     return $self->request_get($path);
 }
 
 sub get_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{name};
+    my ($self, $name) = @_;
+    my $path = $name;
 
     return $self->request_get($path);
 }
 
 sub patch_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{name};
-    $path .= _make_query_param($args, qw/updateMask/);
+    my ($self, $name, $queue, $opts) = @_;
+    my $path = $name;
+    $path .= _make_query_param($opts, qw/updateMask/);
 
-    my %opts = ();
-    if ($args->{queue}) {
-        $opts{queue} = $args->{queue};
-    }
-
-    return $self->request_patch($path, \%opts);
+    return $self->request_patch($path, { queue => $queue });
 }
 
 sub pause_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{name} . ':pause';
+    my ($self, $name) = @_;
+    my $path = $name . ':pause';
     return $self->request_post($path);
 }
 
 sub purge_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{name} . ':purge';
+    my ($self, $name) = @_;
+    my $path = $name . ':purge';
     return $self->request_post($path);
 }
 
 sub resume_queue {
-    my ($self, $args) = @_;
-    my $path = $args->{name} . ':resume';
+    my ($self, $name) = @_;
+    my $path = $name . ':resume';
     return $self->request_post($path);
 }
 
 sub test_iam_permissions {
-    my ($self, $args, $permissions) = @_;
-    my $path = $args->{resource} . ':testIamPermissions';
-    my %opts = ();
-    $args->{permissions} and $opts{permissions} = $args->{permissions};
-    return $self->request_post($path, \%opts);
+    my ($self, $resource, $permissions) = @_;
+    my $path = $resource . ':testIamPermissions';
+    return $self->request_post($path, { permissions => $permissions });
 }
 
 sub create_task {
-    my ($self, $args) = @_;
-    my $path = $args->{parent} . '/tasks';
+    my ($self, $parent, $task, $responseView) = @_;
+    my $path = $parent . '/tasks';
 
-    my %opts = ();
-    for (qw/task responseView/) {
-        defined $args->{$_} and $opts{$_} = $args->{$_};
-    }
+    my %opts = (
+        task => $task,
+    );
+    defined $responseView and $opts{responseView} = $responseView;
 
     return $self->request_post($path, \%opts);
 }
 
 sub delete_task {
-    my ($self, $args) = @_;
-    my $path = $args->{name};
+    my ($self, $name) = @_;
+    my $path = $name;
 
     return $self->request_delete($path);
 }
 
 sub get_task {
-    my ($self, $args) = @_;
-    my $path = $args->{name};
+    my ($self, $name, $opts) = @_;
+    my $path = $name;
 
-    $path .= _make_query_param($args, qw/responseView/);
+    $path .= _make_query_param($opts, qw/responseView/);
 
     return $self->request_get($path);
 }
 
 sub list_tasks {
-    my ($self, $args) = @_;
-    my $path = $args->{parent} . '/tasks';
+    my ($self, $parent, $opts) = @_;
+    my $path = $parent . '/tasks';
 
-    $path .= _make_query_param($args, qw/responseView pageSize pageToken/);
+    $path .= _make_query_param($opts, qw/responseView pageSize pageToken/);
 
     return $self->request_get($path);
 }
 
 sub run_task {
-    my ($self, $args) = @_;
-    my $path = $args->{name} . ':run';
+    my ($self, $name, $responseView) = @_;
+    my $path = $name . ':run';
 
     my %opts = ();
-    for (qw/responseView/) {
-        defined $args->{$_} and $opts{$_} = $args->{$_};
-    }
+    defined $responseView and $opts{responseView} = $responseView;
 
     return $self->request_post($path, \%opts);
 }

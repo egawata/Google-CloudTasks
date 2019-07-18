@@ -116,9 +116,8 @@ sub _make_query_param {
 sub get_location {
     my ($self, $args) = @_;
     my $path = $args->{name};
-    my $ret = $self->request_get($path);
-    my $location = Google::CloudTasks::Location->new_from_hash($self, $ret);
-    return $location;
+
+    return $self->request_get($path);
 }
 
 sub list_locations {
@@ -133,18 +132,14 @@ sub create_queue {
     my ($self, $args) = @_;
     my $path = $args->{parent} . '/queues';
 
-    my $ret = $self->request_post($path, $args->{queue});
-    return Google::CloudTasks::Queue->new_from_hash($self, $ret);
+    return $self->request_post($path, $args->{queue});
 }
 
 sub delete_queue {
     my ($self, $args) = @_;
-    my $queue = Google::CloudTasks::Queue->new(
-        client => $self,
-        name => $args->{name},
-    );
+    my $path = $args->{name};
 
-    return $queue->delete();
+    return $self->request_delete($path);
 }
 
 sub get_iam_policy {
@@ -170,23 +165,14 @@ sub list_queues {
     my $path = $args->{parent};
     $path .= _make_query_param($args, qw/filter pageSize pageToken/);
 
-    my $ret = $self->request_get($path);
-    my @queues = [
-        map { Google::CloudTasks::Queue->new_from_hash($self, $_) }
-        @{$ret->{queues}}
-    ];
-    return {
-        queues => \@queues,
-        nextPageToken => $ret->{nextPageToken},
-    };
+    return $self->request_get($path);
 }
 
 sub get_queue {
     my ($self, $args) = @_;
     my $path = $args->{name};
 
-    my $ret = $self->request_get($path);
-    return Google::CloudTasks::Queue->new_from_hash($self, $ret);
+    return $self->request_get($path);
 }
 
 sub patch_queue {

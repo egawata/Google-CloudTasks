@@ -204,15 +204,15 @@ sub test_iam_permissions {
 }
 
 sub create_task {
-    my ($self, $parent, $task, $responseView) = @_;
+    my ($self, $parent, $task, $opts) = @_;
     my $path = $parent . '/tasks';
 
-    my %opts = (
+    my %param = (
         task => $task,
     );
-    defined $responseView and $opts{responseView} = $responseView;
+    defined $opts->{responseView} and $param{responseView} = $opts->{responseView};
 
-    return $self->request_post($path, \%opts);
+    return $self->request_post($path, \%param);
 }
 
 sub delete_task {
@@ -241,11 +241,11 @@ sub list_tasks {
 }
 
 sub run_task {
-    my ($self, $name, $responseView) = @_;
+    my ($self, $name, $opts) = @_;
     my $path = $name . ':run';
 
-    my %opts = ();
-    defined $responseView and $opts{responseView} = $responseView;
+    my %param = ();
+    defined $opts->{responseView} and $opts{responseView} = $opts->{responseView};
 
     return $self->request_post($path, \%opts);
 }

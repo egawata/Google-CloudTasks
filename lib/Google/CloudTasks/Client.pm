@@ -245,9 +245,9 @@ sub run_task {
     my $path = $name . ':run';
 
     my %param = ();
-    defined $opts->{responseView} and $opts{responseView} = $opts->{responseView};
+    defined $opts->{responseView} and $param{responseView} = $opts->{responseView};
 
-    return $self->request_post($path, \%opts);
+    return $self->request_post($path, \%param);
 }
 
 1;

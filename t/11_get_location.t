@@ -4,6 +4,7 @@ use utf8;
 
 use lib qw/lib/;
 use Test::More;
+use Test::Exception;
 use Google::CloudTasks;
 
 BEGIN {

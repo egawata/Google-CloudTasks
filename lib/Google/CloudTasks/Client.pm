@@ -40,6 +40,12 @@ has ua => (
     default => sub { LWP::UserAgent->new() },
 );
 
+has is_debug => (
+    is => 'ro',
+    isa => 'Bool',
+    default => 0,
+);
+
 no Mouse;
 
 __PACKAGE__->meta->make_immutable;
@@ -67,8 +73,13 @@ sub request {
         my $encoded_body = encode_json($content);
         $req->header('Content-Length' => length($encoded_body));
         $req->content($encoded_body);
-        print "Content = [$encoded_body]\n";
     }
+
+    if ($self->is_debug) {
+        use Data::Dumper;
+        print "Request : " . Dumper($req);
+    }
+
     my $res = $self->ua->request($req);
 
     if ($res->is_success) {
@@ -96,8 +107,8 @@ sub request_delete {
 }
 
 sub request_patch {
-    my ($self, $path) = @_;
-    return $self->request(PATCH => $path);
+    my ($self, $path, $content) = @_;
+    return $self->request(PATCH => $path, $content);
 }
 
 sub _make_query_param {
@@ -158,7 +169,7 @@ sub set_iam_policy {
 
 sub list_queues {
     my ($self, $parent, $opts) = @_;
-    my $path = $parent;
+    my $path = $parent . '/queues';
     $path .= _make_query_param($opts, qw/filter pageSize pageToken/);
 
     return $self->request_get($path);
@@ -176,7 +187,7 @@ sub patch_queue {
     my $path = $name;
     $path .= _make_query_param($opts, qw/updateMask/);
 
-    return $self->request_patch($path, { queue => $queue });
+    return $self->request_patch($path, $queue);
 }
 
 sub pause_queue {

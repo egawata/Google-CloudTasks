@@ -87,6 +87,14 @@ subtest 'resume' => sub {
     is $ret->{state}, 'RUNNING';
 };
 
+subtest 'purge' => sub {
+    my $ret;
+    lives_ok {
+        $ret = $client->purge_queue($queue_name);
+    };
+    ok exists $ret->{purgeTime};
+};
+
 subtest 'delete' => sub {
     my $ret;
     lives_ok {

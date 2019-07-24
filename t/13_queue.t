@@ -53,7 +53,7 @@ subtest 'list' => sub {
     };
     cmp_deeply $ret->{queues}, supersetof(
         superhashof(
-            {
+            +{
                 name => $queue_name,
             }
         )
@@ -100,7 +100,7 @@ subtest 'delete' => sub {
     lives_ok {
         $ret = $client->delete_queue($queue_name);
     };
-    is_deeply $ret, {};
+    is_deeply $ret, +{};
 };
 
 done_testing;

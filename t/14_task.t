@@ -28,38 +28,45 @@ my $queue = {
     name => $parent,
 };
 $client->create_queue($parent_of_queue, $queue);
+$client->pause_queue($parent);
 
-my $task_id = sprintf('ct-task-test-%f-%d', Time::HiRes::time(), int(rand(10000)));
-$task_id =~ s/\./-/g;
-my $task_name = "$parent/tasks/$task_id";
+my $task_id_1 = sprintf('ct-task-test-1-%f-%d', Time::HiRes::time(), int(rand(10000)));
+my $task_id_2 = sprintf('ct-task-test-2-%f-%d', Time::HiRes::time(), int(rand(10000)));
+$task_id_1 =~ s/\./-/g;
+$task_id_2 =~ s/\./-/g;
+my $task_name_1 = "$parent/tasks/$task_id_1";
+my $task_name_2 = "$parent/tasks/$task_id_2";
 
 subtest 'create' => sub {
     my $body = encode_base64('{"name": "TaskTest"}');
     chomp($body);
 
-    my $task = +{
-        name => $task_name,
-        appEngineHttpRequest => {
-            relativeUri => '/path',
-            headers => {
-                'Content-Type' => 'application/json',
-            },
-            body => $body,
-        },
-    };
-    my $ret;
+    my @rets = ();
     lives_ok {
-        $ret = $client->create_task($parent, $task, {});
+        for my $task_name ($task_name_1, $task_name_2) {
+            my $task = +{
+                name => $task_name,
+                appEngineHttpRequest => {
+                    relativeUri => '/path',
+                    headers => {
+                        'Content-Type' => 'application/json',
+                    },
+                    body => $body,
+                },
+            };
+            push @rets, $client->create_task($parent, $task, {});
+        }
     };
-    is $ret->{name}, $task_name;
+    is $rets[0]->{name}, $task_name_1;
+    is $rets[1]->{name}, $task_name_2;
 };
 
 subtest 'get' => sub {
     my $ret;
     lives_ok {
-        $ret = $client->get_task($task_name);
+        $ret = $client->get_task($task_name_1);
     };
-    is $ret->{name}, $task_name;
+    is $ret->{name}, $task_name_1;
 };
 
 subtest 'list' => sub {
@@ -68,27 +75,40 @@ subtest 'list' => sub {
         $ret = $client->list_tasks($parent);
     };
     cmp_deeply $ret->{tasks}, supersetof(
-        superhashof(
-            +{
-                name => $task_name,
-            }
-        ),
+        superhashof( +{ name => $task_name_1 }),
+        superhashof( +{ name => $task_name_2 })
     );
 };
 
 subtest 'run' => sub {
-    my $before = $client->get_task($task_name);
+    sleep 3;   # should wait a few seconds to use this API
+    my $before = $client->get_task($task_name_1);
     my $ret;
     lives_ok {
-        $ret = $client->run_task($task_name);
+        my $retry_count = 10;
+        while (1) {
+            eval {
+                $ret = $client->run_task($task_name_1);
+            };
+            if ($@) {
+                $retry_count--;
+                if ($retry_count <= 0) {
+                    die $@;
+                }
+                sleep 3;
+            }
+            else {
+                last;
+            }
+        }
     };
-    is $ret->{dispatchCount}, $before->{dispatchCount} + 1;
+    is $ret->{dispatchCount}, ($before->{dispatchCount} // 0) + 1;
 };
 
 subtest 'delete' => sub {
     my $ret;
     lives_ok {
-        $ret = $client->delete_task($task_name);
+        $ret = $client->delete_task($task_name_2);
     };
     is_deeply $ret, +{};
 };

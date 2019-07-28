@@ -7,6 +7,7 @@ use Test::More;
 use Test::Exception;
 use Test::Deep;
 use Time::HiRes;
+use MIME::Base64;
 use Google::CloudTasks;
 
 BEGIN {
@@ -33,10 +34,17 @@ $task_id =~ s/\./-/g;
 my $task_name = "$parent/tasks/$task_id";
 
 subtest 'create' => sub {
+    my $body = encode_base64('{"name": "TaskTest"}');
+    chomp($body);
+
     my $task = +{
         name => $task_name,
         appEngineHttpRequest => {
             relativeUri => '/path',
+            headers => {
+                'Content-Type' => 'application/json',
+            },
+            body => $body,
         },
     };
     my $ret;

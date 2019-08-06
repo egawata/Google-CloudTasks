@@ -1,6 +1,6 @@
 # NAME
 
-Google::CloudTasks - Perl client library for the Google CloudTasks API.
+Google::CloudTasks - Perl client library for the Google CloudTasks API (_unofficial_).
 
 # SYNOPSIS
 
@@ -28,7 +28,7 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API.
 
 Google::CloudTasks https://cloud.google.com/tasks/docs/reference/rest/
 
-This is a Perl client library for the Google CloudTasks API (_unofficial_).
+This is a Perl client library for the Google CloudTasks API.
 
 ## AUTHENTICATION
 
@@ -49,7 +49,7 @@ All methods handle raw hashref (or arrayref of hashref), rather than objects.
 
 ## Location
 
-Refer the detailed representation of location at L<>
+Refer the detailed representation of location at [https://cloud.google.com/tasks/docs/reference/rest/Shared.Types/ListLocationsResponse#Location](https://cloud.google.com/tasks/docs/reference/rest/Shared.Types/ListLocationsResponse#Location)
 
 ### get\_location
 
@@ -126,7 +126,7 @@ Resumes a queue.
 
 ## Task
 
-Refer the detailed representation of task at L<>
+Refer the detailed representation of task at [https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues.tasks#Task](https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues.tasks#Task)
 
 ### create\_task
 
@@ -186,15 +186,3 @@ it under the same terms as Perl itself.
 # AUTHOR
 
 egawata <egawa.takashi@gmail.com>
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 75:
-
-    An empty L<>
-
-- Around line 152:
-
-    An empty L<>

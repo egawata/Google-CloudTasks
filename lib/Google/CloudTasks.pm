@@ -22,7 +22,7 @@ __END__
 
 =head1 NAME
 
-Google::CloudTasks - Perl client library for the Google CloudTasks API.
+Google::CloudTasks - Perl client library for the Google CloudTasks API (I<unofficial>).
 
 =head1 SYNOPSIS
 
@@ -51,7 +51,7 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API.
 
 Google::CloudTasks https://cloud.google.com/tasks/docs/reference/rest/
 
-This is a Perl client library for the Google CloudTasks API (I<unofficial>).
+This is a Perl client library for the Google CloudTasks API.
 
 =head2 AUTHENTICATION
 
@@ -72,7 +72,7 @@ C<version> is an API version. C<credentials_path> is a path to a service account
 
 =head2 Location
 
-Refer the detailed representation of location at L<>
+Refer the detailed representation of location at L<https://cloud.google.com/tasks/docs/reference/rest/Shared.Types/ListLocationsResponse#Location>
 
 =head3 get_location
 
@@ -149,7 +149,7 @@ Resumes a queue.
 
 =head2 Task
 
-Refer the detailed representation of task at L<>
+Refer the detailed representation of task at L<https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues.tasks#Task>
 
 =head3 create_task
 

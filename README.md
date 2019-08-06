@@ -185,4 +185,4 @@ it under the same terms as Perl itself.
 
 # AUTHOR
 
-egawata <egawa.takashi@gmail.com>
+egawata (egawa dot takashi gmail.com)

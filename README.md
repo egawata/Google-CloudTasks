@@ -33,7 +33,7 @@ This is a Perl client library for the Google CloudTasks API.
 
 ## AUTHENTICATION
 
-A service account with appropriate roles is required. You need to download JSON file and specify `credentials_path`.
+A service account with appropriate permissions/roles is required. You need to download JSON file and specify `credentials_path`.
 
 # METHODS
 

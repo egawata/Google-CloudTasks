@@ -68,7 +68,8 @@ All methods handle raw hashref (or arrayref of hashref), rather than objects.
         credentials_path => '/path/to/credentials.json',
     );
 
-C<version> is an API version. C<credentials_path> is a path to a service account JSON file.
+C<version> is an API version. (Currently only C<v2> is available)
+C<credentials_path> is a path to a service account JSON file.
 
 =head2 Location
 
@@ -208,6 +209,6 @@ it under the same terms as Perl itself.
 
 =head1 AUTHOR
 
-egawata E<lt>egawa.takashi@gmail.comE<gt>
+egawata (egawa dot takashi at gmail.com)
 
 =cut

@@ -45,7 +45,8 @@ All methods handle raw hashref (or arrayref of hashref), rather than objects.
         credentials_path => '/path/to/credentials.json',
     );
 
-`version` is an API version. `credentials_path` is a path to a service account JSON file.
+`version` is an API version. (Currently only `v2` is available)
+`credentials_path` is a path to a service account JSON file.
 
 ## Location
 
@@ -185,4 +186,4 @@ it under the same terms as Perl itself.
 
 # AUTHOR
 
-egawata (egawa dot takashi gmail.com)
+egawata (egawa dot takashi at gmail.com)

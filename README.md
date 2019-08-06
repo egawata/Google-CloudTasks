@@ -12,9 +12,10 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (_unoffic
     );
 
     #  Create task
-    my $project_name = 'myproject';
-    my $queue_name = 'myqueue';
-    my $parent = "/projects/$project_name/queues/$queue_name";
+    my $project_id = 'myproject';
+    my $location_id = 'asia-northeast1';
+    my $queue_id = 'myqueue';
+    my $parent = "/projects/$project_id/locations/$location_id/queues/$queue_id";
 
     my $task = {
         name => 'mytask-01234567',
@@ -22,7 +23,7 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (_unoffic
             relativeUri => '/do_task',
         },
     }
-    my $ret = $client->create_task($parent, $task);
+    my $created_task = $client->create_task($parent, $task);
 
 # DESCRIPTION
 

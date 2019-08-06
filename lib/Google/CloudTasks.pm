@@ -36,7 +36,7 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (I<unoffi
     #  Create task
     my $project_name = 'myproject';
     my $queue_name = 'myqueue';
-    my $parent = "/projects/$project_name/queues/$queue_name";
+    my $parent = "projects/$project_name/queues/$queue_name";
 
     my $task = {
         name => 'mytask-01234567',
@@ -78,13 +78,13 @@ Refer the detailed representation of location at L<https://cloud.google.com/task
 
 Gets information about a location.
 
-    my $location = $client->get_location("/projects/$PROJECT_ID/locations/$LOCATION_ID");
+    my $location = $client->get_location("projects/$PROJECT_ID/locations/$LOCATION_ID");
 
 =head3 list_locations
 
 Lists information about all locations under project.
 
-    my $ret = $client->list_locations("/projects/$PROJECT_ID");
+    my $ret = $client->list_locations("projects/$PROJECT_ID");
     my $locations = $ret->{locations};
 
 =head2 Queue
@@ -98,25 +98,25 @@ Creates a queue.
     my $queue = {
         name => 'queue-name',
     };
-    my $created = $client->create_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID", $queue);
+    my $created = $client->create_queue("projects/$PROJECT_ID/locations/$LOCATION_ID", $queue);
 
 =head3 delete_queue
 
 Deletes a queue.
 
-    $client->delete_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID")
+    $client->delete_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID")
 
 =head3 get_queue
 
 Gets information of a queue.
 
-    my $queue = $client->get_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $queue = $client->get_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
 =head3 list_queues
 
 Lists information of all queues.
 
-    my $ret = $client->list_queues("/projects/$PROJECT_ID/locations/$LOCATION_ID");
+    my $ret = $client->list_queues("projects/$PROJECT_ID/locations/$LOCATION_ID");
     my $queues = $ret->{queues};
 
 =head3 patch_queue
@@ -130,7 +130,7 @@ Updates a queue.
     };
     my $update_mask = { updateMask => 'retryConfig.maxAttempts' };
     my $updated = $client->patch_queue(
-        "/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
+        "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
         $queue,
         $update_mask,   # optional
     );
@@ -139,13 +139,13 @@ Updates a queue.
 
 Pauses a queue.
 
-    my $queue = $client->pause_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $queue = $client->pause_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
 =head3 resume_queue
 
 Resumes a queue.
 
-    my $queue = $client->resume_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $queue = $client->resume_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
 =head2 Task
 
@@ -162,7 +162,7 @@ Creates a task.
         },
     };
     my $created = $client->create_task(
-        "/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
+        "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
         $task
     );
 
@@ -170,26 +170,26 @@ Creates a task.
 
 Deletes a task.
 
-    $client->delete_task("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
+    $client->delete_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 =head3 get_task
 
 Gets information of a task.
 
-    my $task = $client->get_task("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
+    my $task = $client->get_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 =head3 list_tasks
 
 Lists information of all tasks.
 
-    my $ret = $client->list_tasks("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $ret = $client->list_tasks("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
     my $tasks = $ret->{tasks};
 
 =head3 run_task
 
 Runs a task.
 
-    my $ret = $client->run_task("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
+    my $ret = $client->run_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 =head1 TODO
 

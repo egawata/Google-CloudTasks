@@ -12,10 +12,9 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (_unoffic
     );
 
     #  Create task
-    my $project_id = 'myproject';
-    my $location_id = 'asia-northeast1';
-    my $queue_id = 'myqueue';
-    my $parent = "/projects/$project_id/locations/$location_id/queues/$queue_id";
+    my $project_name = 'myproject';
+    my $queue_name = 'myqueue';
+    my $parent = "projects/$project_name/queues/$queue_name";
 
     my $task = {
         name => 'mytask-01234567',
@@ -23,7 +22,7 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (_unoffic
             relativeUri => '/do_task',
         },
     }
-    my $created_task = $client->create_task($parent, $task);
+    my $ret = $client->create_task($parent, $task);
 
 # DESCRIPTION
 
@@ -33,7 +32,7 @@ This is a Perl client library for the Google CloudTasks API.
 
 ## AUTHENTICATION
 
-A service account with appropriate permissions/roles is required. You need to download JSON file and specify `credentials_path`.
+A service account with appropriate roles is required. You need to download JSON file and specify `credentials_path`.
 
 # METHODS
 
@@ -56,13 +55,13 @@ Refer the detailed representation of location at [https://cloud.google.com/tasks
 
 Gets information about a location.
 
-    my $location = $client->get_location("/projects/$PROJECT_ID/locations/$LOCATION_ID");
+    my $location = $client->get_location("projects/$PROJECT_ID/locations/$LOCATION_ID");
 
 ### list\_locations
 
 Lists information about all locations under project.
 
-    my $ret = $client->list_locations("/projects/$PROJECT_ID");
+    my $ret = $client->list_locations("projects/$PROJECT_ID");
     my $locations = $ret->{locations};
 
 ## Queue
@@ -76,25 +75,25 @@ Creates a queue.
     my $queue = {
         name => 'queue-name',
     };
-    my $created = $client->create_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID", $queue);
+    my $created = $client->create_queue("projects/$PROJECT_ID/locations/$LOCATION_ID", $queue);
 
 ### delete\_queue
 
 Deletes a queue.
 
-    $client->delete_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID")
+    $client->delete_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID")
 
 ### get\_queue
 
 Gets information of a queue.
 
-    my $queue = $client->get_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $queue = $client->get_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
 ### list\_queues
 
 Lists information of all queues.
 
-    my $ret = $client->list_queues("/projects/$PROJECT_ID/locations/$LOCATION_ID");
+    my $ret = $client->list_queues("projects/$PROJECT_ID/locations/$LOCATION_ID");
     my $queues = $ret->{queues};
 
 ### patch\_queue
@@ -108,7 +107,7 @@ Updates a queue.
     };
     my $update_mask = { updateMask => 'retryConfig.maxAttempts' };
     my $updated = $client->patch_queue(
-        "/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
+        "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
         $queue,
         $update_mask,   # optional
     );
@@ -117,13 +116,13 @@ Updates a queue.
 
 Pauses a queue.
 
-    my $queue = $client->pause_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $queue = $client->pause_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
 ### resume\_queue
 
 Resumes a queue.
 
-    my $queue = $client->resume_queue("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $queue = $client->resume_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
 ## Task
 
@@ -140,7 +139,7 @@ Creates a task.
         },
     };
     my $created = $client->create_task(
-        "/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
+        "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
         $task
     );
 
@@ -148,26 +147,26 @@ Creates a task.
 
 Deletes a task.
 
-    $client->delete_task("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
+    $client->delete_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 ### get\_task
 
 Gets information of a task.
 
-    my $task = $client->get_task("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
+    my $task = $client->get_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 ### list\_tasks
 
 Lists information of all tasks.
 
-    my $ret = $client->list_tasks("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+    my $ret = $client->list_tasks("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
     my $tasks = $ret->{tasks};
 
 ### run\_task
 
 Runs a task.
 
-    my $ret = $client->run_task("/projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
+    my $ret = $client->run_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 # TODO
 
@@ -186,4 +185,4 @@ it under the same terms as Perl itself.
 
 # AUTHOR
 
-egawata <egawa dot takashi gmail.com>
+egawata <egawa.takashi@gmail.com>

@@ -7,8 +7,6 @@ use HTTP::Request;
 use URI;
 use URI::QueryParam;
 use JSON::XS;
-use Google::CloudTasks::Location;
-use Google::CloudTasks::Queue;
 
 our $VERSION = "0.01";
 

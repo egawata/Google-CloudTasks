@@ -34,7 +34,7 @@ This is a Perl client library for the Google CloudTasks API.
 ## AUTHENTICATION
 
 A service account with appropriate roles is required. You need to download JSON file and specify `credentials_path`.
-See also: [https://cloud.google.com/docs/authentication/getting-started?hl=ja#creating\_the\_service\_account](https://cloud.google.com/docs/authentication/getting-started?hl=ja#creating_the_service_account)
+See also: [https://cloud.google.com/docs/authentication/getting-started#creating\_the\_service\_account](https://cloud.google.com/docs/authentication/getting-started#creating_the_service_account)
 
 # METHODS
 

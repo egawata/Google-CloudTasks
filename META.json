@@ -1,7 +1,7 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "Perl client library for the Google CloudTasks API (I<unofficial>).",
    "author" : [
-      "egawata <egawa.takashi@gmail.com>"
+      "egawata (egawa dot takashi at gmail.com)"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v3.1.4, CPAN::Meta::Converter version 2.150010",
@@ -42,18 +42,41 @@
       },
       "runtime" : {
          "requires" : {
+            "HTTP::Request" : "0",
+            "JSON::XS" : "0",
+            "LWP::UserAgent" : "0",
+            "Mouse" : "0",
+            "URI" : "0",
+            "WWW::Google::Cloud::Auth::ServiceAccount" : "0",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.98"
+            "Test::Deep" : "0",
+            "Test::Exception" : "0",
+            "Test::More" : "0.98",
+            "Time::HiRes" : "0"
          }
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/egawata/Google-CloudTasks/issues"
+      },
+      "homepage" : "https://github.com/egawata/Google-CloudTasks",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/egawata/Google-CloudTasks.git",
+         "web" : "https://github.com/egawata/Google-CloudTasks"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:EGAWATA",
+   "x_contributors" : [
+      "egawata <egawa.takashi@gmail.com>"
+   ],
    "x_serialization_backend" : "JSON::PP version 2.97001",
    "x_static_install" : 1
 }

@@ -1,15 +1,19 @@
+requires 'HTTP::Request';
+requires 'JSON::XS';
+requires 'LWP::UserAgent';
+requires 'Mouse';
+requires 'URI';
+requires 'URI::QueryParam';
+requires 'WWW::Google::Cloud::Auth::ServiceAccount';
 requires 'perl', '5.008001';
 
-requires 'Mouse';
-requires 'WWW::Google::Cloud::Auth::ServiceAccount';
-requires 'LWP::UserAgent';
-requires 'HTTP::Request';
-requires 'URI';
-requires 'JSON::XS';
+on configure => sub {
+    requires 'Module::Build::Tiny', '0.035';
+};
 
-on 'test' => sub {
-    requires 'Test::More', '0.98';
+on test => sub {
+    requires 'MIME::Base64';
     requires 'Test::Deep';
     requires 'Test::Exception';
-    requires 'Time::HiRes';
+    requires 'Test::More', '0.98';
 };

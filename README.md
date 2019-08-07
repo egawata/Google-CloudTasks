@@ -18,7 +18,7 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (_unoffic
     my $parent = "projects/$project_id/locations/$location_id/queues/$queue_id";
 
     my $task = {
-        name => 'mytask-01234567',
+        name => "$parent/tasks/mytask-01234567",
         appEngineHttpRequest => {
             relativeUri => '/do_task',
         },
@@ -27,13 +27,14 @@ Google::CloudTasks - Perl client library for the Google CloudTasks API (_unoffic
 
 # DESCRIPTION
 
-Google::CloudTasks https://cloud.google.com/tasks/docs/reference/rest/
+Google::CloudTasks [https://cloud.google.com/tasks/docs/reference/rest/](https://cloud.google.com/tasks/docs/reference/rest/)
 
 This is a Perl client library for the Google CloudTasks API.
 
 ## AUTHENTICATION
 
 A service account with appropriate roles is required. You need to download JSON file and specify `credentials_path`.
+See also: [https://cloud.google.com/docs/authentication/getting-started?hl=ja#creating\_the\_service\_account](https://cloud.google.com/docs/authentication/getting-started?hl=ja#creating_the_service_account)
 
 # METHODS
 
@@ -135,7 +136,7 @@ Refer the detailed representation of task at [https://cloud.google.com/tasks/doc
 Creates a task.
 
     my $task = {
-        name => 'task-123456,
+        name => "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
         appEngineHttpRequest => {
             relativeUri => '/path',
         },
@@ -171,6 +172,8 @@ Runs a task.
     my $ret = $client->run_task("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID/tasks/$TASK_ID");
 
 # TODO
+
+The following methods has implemented, but not tested yet.
 
 `Queue.getIamPolicy`
 

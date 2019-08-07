@@ -16,4 +16,5 @@ on test => sub {
     requires 'Test::Deep';
     requires 'Test::Exception';
     requires 'Test::More', '0.98';
+    requires 'Time::HiRes';
 };

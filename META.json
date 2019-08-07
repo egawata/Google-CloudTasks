@@ -47,12 +47,14 @@
             "LWP::UserAgent" : "0",
             "Mouse" : "0",
             "URI" : "0",
+            "URI::QueryParam" : "0",
             "WWW::Google::Cloud::Auth::ServiceAccount" : "0",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
+            "MIME::Base64" : "0",
             "Test::Deep" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0.98",

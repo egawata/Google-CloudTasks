@@ -11,6 +11,10 @@ our $VERSION = "0.01";
 sub client {
     my ($class, @args) = @_;
 
+    my %args = @args;
+    if ($args{version} and $args{version} ne 'v2') {
+        die "Currently only version 'v2' of CloudTasks is suppoted.";
+    }
     return Google::CloudTasks::Client->new(@args);
 }
 

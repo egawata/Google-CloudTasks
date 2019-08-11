@@ -160,12 +160,21 @@ Refer the detailed representation of task at L<https://cloud.google.com/tasks/do
 
 =head3 create_task
 
-Creates a task.
+Creates a task. Note that a request body in C<appEngineHttpRequest> should be base64-encoded.
+
+    use MIME::Base64;
+
+    my $body = encode_base64('{"name": "TaskTest"}');
+    chomp($body);
 
     my $task = {
         name => "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
         appEngineHttpRequest => {
             relativeUri => '/path',
+            headers => [
+                'Content-Type' => 'application/json',
+            ],
+            body => $body,
         },
     };
     my $created = $client->create_task(
@@ -200,7 +209,7 @@ Runs a task.
 
 =head1 TODO
 
-The following methods has implemented, but not tested yet.
+The following methods has implemented, but not tested nor documented yet.
 
 C<Queue.getIamPolicy>
 

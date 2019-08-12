@@ -95,6 +95,44 @@ subtest 'purge' => sub {
     ok exists $ret->{purgeTime};
 };
 
+subtest 'iam_policy' => sub {
+    my $etag;
+
+    subtest 'get_iam_policy' => sub {
+        my $ret;
+        lives_ok {
+            $ret = $client->get_iam_policy_queue($queue_name);
+        };
+        $etag = $ret->{etag};
+        ok $etag;
+    };
+
+    SKIP: {
+        my $service_account = $ENV{CT_TEST_SERVICE_ACCOUNT}
+            or skip "This test requires CT_TEST_SERVICE_ACCOUNT environment variable", 1;
+        subtest 'set_iam_policy' => sub {
+            my $policy = {
+                bindings => [
+                    +{
+                        role => 'roles/viewer',
+                        members => [
+                            "serviceAccount:$service_account",
+                        ],
+                    }
+                ],
+                etag => $etag,
+            };
+            my $ret;
+            lives_ok {
+                $ret = $client->set_iam_policy_queue($queue_name, $policy);
+            };
+            $etag = $ret->{etag};
+            ok $etag;
+            is_deeply $ret->{bindings}, $policy->{bindings} or diag explain $ret;
+        };
+    }
+};
+
 subtest 'delete' => sub {
     my $ret;
     lives_ok {

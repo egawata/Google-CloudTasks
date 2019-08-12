@@ -151,14 +151,14 @@ sub delete_queue {
     return $self->request_delete($path);
 }
 
-sub get_iam_policy {
+sub get_iam_policy_queue {
     my ($self, $resource) = @_;
     my $path = $resource . ':getIamPolicy';
 
     return $self->request_post($path);
 }
 
-sub set_iam_policy {
+sub set_iam_policy_queue {
     my ($self, $resource, $policy) = @_;
     my $path = $resource . ':setIamPolicy';
 

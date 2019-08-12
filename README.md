@@ -127,6 +127,32 @@ Resumes a queue.
 
     my $queue = $client->resume_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
 
+### get\_iam\_policy\_queue
+
+Gets the access control policy for a queue.
+
+    my $policy = $client->get_iam_policy_queue("projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID");
+
+### set\_iam\_policy\_queue
+
+Sets the access control policy for a queue.
+
+    my $policy = {
+        bindings => [
+            +{
+                role => 'roles/viewer',
+                members => [
+                    'serviceAccount:service-account-name@myproject.gserviceaccount.com',
+                ],
+            }
+        ],
+        etag => $etag,  # got via get_iam_policy_queue
+    };
+    $policy = $client->set_iam_policy_queue(
+        "projects/$PROJECT_ID/locations/$LOCATION_ID/queues/$QUEUE_ID",
+        $policy,
+    );
+
 ## Task
 
 Refer the detailed representation of task at [https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues.tasks#Task](https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues.tasks#Task)
@@ -183,10 +209,6 @@ Runs a task.
 # TODO
 
 The following methods has implemented, but not tested nor documented yet.
-
-`Queue.getIamPolicy`
-
-`Queue.setIamPolicy`
 
 `Queue.testIamPermissions`
 
